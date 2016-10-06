@@ -244,6 +244,17 @@ class EIoTClientV10(object):
             self.api.api_setter_request(self.api.MODULE_SET_NAME, mid, name)
         return mid
 
+    def get_param_id_by_name(self, module_id, param_name):
+        '''
+        :return: the param that corresponts to a given name for
+            specific module id. None if there's no match
+        '''
+        try:
+            res = self.api.api_getter_request(self.api.PARAM_GET_BY_NAME, module_id, param_name)
+            return res['Id']
+        except:
+            return None
+
 
 def test():
     opts = docopt(__doc__)
