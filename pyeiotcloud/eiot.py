@@ -10,6 +10,7 @@ Parameters:
 '''
 import httplib
 import json
+import urllib
 from docopt import docopt
 
 
@@ -176,13 +177,21 @@ class EIoTCloudRestApiV10(object):
         return headers
 
     def api_setter_request(self, builder, _id, _value):
+        if _id is not None:
+            _id = urllib.quote(_id)
+        if _value is not None:
+            _value = urllib.quote(_value)
         path = builder.get_path({'_id': _id, '_value': _value})
         method = builder.get_method()
         headers = self.get_auth_headers(builder)
         return self.do_rest1(method, path, headers)
 
-    def api_getter_request(self, builder, _id=None):
-        path = builder.get_path({'_id': _id})
+    def api_getter_request(self, builder, _id=None, _value=None):
+        if _id is not None:
+            _id = urllib.quote(_id)
+        if _value is not None:
+            _value = urllib.quote(_value)
+        path = builder.get_path({'_id': _id, '_value': _value})
         method = builder.get_method()
         headers = self.get_auth_headers(builder)
         return self.do_rest1(method, path, headers)
